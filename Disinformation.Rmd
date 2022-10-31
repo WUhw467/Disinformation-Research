@@ -1,0 +1,190 @@
+---
+title: "Disinformation"
+author: "Hengxin Wu"
+date: "2/8/2022"
+output: html_document
+---
+
+```{r}
+df = read.csv('/Users/hengxinwu/Desktop/Disinformation RA/user_details_20210806.csv')
+```
+
+```{r}
+# Is there sufficient evidence to conclude that pro-Trump bots have a higher average number of toxicity than anti-Trump bot?
+#H0:miuPro = miuAnti
+#H1:miuPro > miuAnti
+anti <- df[df$opinion_community == 0,]
+data1 <- anti$avg_toxicity
+pro <- df[df$opinion_community == 1,]
+data2 <- pro$avg_toxicity
+t.test(data1, data2, alternative = "greater")
+```
+
+```{r}
+# Is there sufficient evidence to conclude that pro-Trump bots have a higher average number of toxicity than anti-Trump bot?
+#H0:miuPro = miuAnti
+#H1:miuPro > miuAnti
+anti <- df[df$opinion_community == 0,]
+data1 <- anti$avg_severe_toxicity
+pro <- df[df$opinion_community == 1,]
+data2 <- pro$avg_severe_toxicity
+t.test(data1, data2, alternative = "greater")
+```
+
+```{r}
+# Is there sufficient evidence to conclude that pro-Trump bots have a higher average number of toxicity than anti-Trump bot?
+#H0:miuPro = miuAnti
+#H1:miuPro > miuAnti
+anti <- df[df$opinion_community == 0,]
+data1 <- anti$avg_insult
+pro <- df[df$opinion_community == 1,]
+data2 <- pro$avg_insult
+t.test(data1, data2, alternative = "greater")
+```
+
+```{r}
+# Is there sufficient evidence to conclude that pro-Trump bots have a higher average number of toxicity than anti-Trump bot?
+#H0:miuPro = miuAnti
+#H1:miuPro > miuAnti
+anti <- df[df$opinion_community == 0,]
+data1 <- anti$avg_obscene
+pro <- df[df$opinion_community == 1,]
+data2 <- pro$avg_obscene
+t.test(data1, data2, alternative = "greater")
+```
+
+```{r}
+# Is there sufficient evidence to conclude that pro-Trump bots have a higher average number of toxicity than anti-Trump bot?
+#H0:miuPro = miuAnti
+#H1:miuPro > miuAnti
+anti <- df[df$opinion_community == 0,]
+data1 <- anti$avg_threat
+pro <- df[df$opinion_community == 1,]
+data2 <- pro$avg_threat
+t.test(data1, data2, alternative = "greater")
+```
+
+```{r}
+# Is there sufficient evidence to conclude that pro-Trump bots have a higher average number of toxicity than anti-Trump bot?
+#H0:miuPro = miuAnti
+#H1:miuPro > miuAnti
+anti <- df[df$opinion_community == 0,]
+data1 <- anti$avg_identity_hate
+pro <- df[df$opinion_community == 1,]
+data2 <- pro$avg_identity_hate
+t.test(data1, data2, alternative = "greater")
+```
+
+```{r}
+# Is there sufficient evidence to conclude that pro-Trump bots have a higher average number of toxicity than anti-Trump bot?
+#H0:miuPro = miuAnti
+#H1:miuPro > miuAnti
+anti <- df[df$opinion_community == 0,]
+data1 <- anti$avg_fact_score
+pro <- df[df$opinion_community == 1,]
+data2 <- pro$avg_fact_score
+t.test(data1, data2, alternative = "greater")
+```
+
+```{r}
+pro_fact_score <- df[df$opinion_community == 1,]
+pro_fact_score <- pro_fact_score$avg_fact_score
+pro_fact_score <- pro_fact_score[!is.na(pro_fact_score)]
+```
+
+```{r}
+pro_identity_hate <- df[df$opinion_community == 1,]
+pro_identity_hate <- pro_identity_hate$avg_identity_hate
+pro_identity_hate <- pro_identity_hate[!is.na(pro_identity_hate)]
+```
+
+```{r}
+degree <- function(list){
+  low <- quantile(list,0.33)
+  middle <- quantile(list,0.66)
+  degree <- c()
+  for (i in 1:length(list)){
+    if (is.na(list[i])){
+      degree <- c(degree, 'missing')
+    }else if (list[i] <= low){
+      degree <- c(degree, 'low')
+    }else if (list[i] > low & list[i] < middle){
+      degree <- c(degree, 'middle')
+    }else{
+      degree <- c(degree, 'high')
+    }
+  }
+  degree
+}
+```
+
+```{r}
+anti <- df[df$opinion_community == 0,]
+pro <- df[df$opinion_community == 1,]
+```
+
+```{r}
+pro_toxicity <- degree(anti$avg_toxicity)
+pro_severe_toxicity <- degree(anti$avg_severe_toxicity)
+pro_insult <- degree(anti$avg_insult)
+pro_obscene <- degree(anti$avg_obscene)
+pro_threat <- degree(anti$avg_threat)
+pro_hate <- degree(anti$avg_identity_hate)
+pro_fact <- degree(anti$avg_fact_score)
+```
+
+```{r}
+anti_toxicity <- degree(anti$avg_toxicity)
+anti_severe_toxicity <- degree(anti$avg_severe_toxicity)
+anti_insult <- degree(anti$avg_insult)
+anti_obscene <- degree(anti$avg_obscene)
+anti_threat <- degree(anti$avg_threat)
+anti_hate <- degree(anti$avg_identity_hate)
+anti_fact <- degree(anti$avg_fact_score)
+```
+
+```{r}
+fact_degree <- degree(pro_fact_score)
+```
+
+```{r}
+hate_degree <- degree(pro_identity_hate)
+```
+
+```{r}
+chisq.test(fact_degree, hate_degree)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
